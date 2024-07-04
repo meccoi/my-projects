@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo-List</title>
+     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
+     body{
+        padding: .9em;
+        font-size: 2rem;
+     }
+
+     a{
+        font-size: 25px;
+        text-decoration: underline;
+     }
+    
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+
+    </nav>
+    <div class="container lg:w-1/2 px-4 mx-auto mt-4">
+        <h1 class="text-2xl font-bold mb-4">Simple Calculator App</h1>
+        
+        
+        <div class="ui segment w-1/2">
+            <div class="ui input mb-4 w-full">
+                <input type="text" id="display" disabled>
+            </div>
+            <div class="ui grid ">
+                <div class="four column row">
+                    <div class="column">
+                        <button class="ui button ui grey button" onclick="clearDisplay()">C</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button">+/-</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('%')">%</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button ui orange button" onclick="append('/')">÷</button>
+                    </div>
+                </div>
+                <div class="four column row">
+                    <div class="column">
+                        <button class="ui button" onclick="append('7')">7</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('8')">8</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('9')">9</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button ui orange button" onclick="append('*')">X</button>
+                    </div>
+                </div>
+                <div class="four column row">
+                    <div class="column">
+                        <button class="ui button" onclick="append('4')">4</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('5')">5</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('6')">6</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button ui orange button" onclick="append('-')">-</button>
+                    </div>
+                </div>
+                <div class="four column row">
+                    <div class="column">
+                        <button class="ui button" onclick="append('1')">1</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('2')">2</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('3')">3</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button ui orange button" onclick="append('+')">+</button>
+                    </div>
+                </div>
+                <div class="four column row">
+                    <div class="column">
+                        <button class="ui button" onclick="append('0')">0</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button" onclick="append('.')">.</button>
+                    </div>
+                    <div class="column">
+                        <button class="ui button ui orange button" onclick="calculate()">=</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+    
+    <script>
+    let calculateActivate = 0;
+        function append(val){
+            
+            if(calculateActivate === 1){
+                calculateActivate += 1;
+                document.getElementById('display').value = '';
+         
+            }else{
+                calculateActivate = 0;
+            }
+            document.getElementById('display').value += val;
+            
+        }
+
+        function clearDisplay(){
+            calculateActivate = 0;
+            document.getElementById('display').value = '';
+        }
+
+        function calculate(){
+            calculateActivate = 1;
+            try{
+                let result = document.getElementById('display').value = eval(document.getElementById('display').value);
+                document.getElementById('display').value = result;
+                
+                
+            }catch(err){
+                document.getElementById('display').value += 'error';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
