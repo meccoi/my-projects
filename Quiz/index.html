@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-BzYzU6xVOm2XeVnvUpd8//V7nUCUe2QaMIn9y6MOoPjSxIBIk0ta2gQ3e2T1ksyB8LTCz4+/blnEh3JVgmjR3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+   body {
+    padding: 0.9em;
+    font-size: calc(1.5rem + 0.1vw);
+    font-weight: 700;
+    background-color: rgb(64, 64, 143);
+}
+
+     a{
+        font-size: 25px;
+        text-decoration: underline;
+     }
+    
+
+     .alert-times-up{
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 350px;
+        z-index: 22;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+     }
+
+ 
+     .quiz-option{
+        display: flex;
+        justify-content: start;
+       
+     }
+
+     .bg{
+        display: none;        
+        height: 100vh;
+    width: 100vw;
+    background: #00000066;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+  
+     }
+
+   .quiz-header{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 0px 0px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+   }
+
+
+   .quiz-container{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+   }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+
+    </nav>
+    <div class="container lg:w-1/2 px-4 mx-auto mt-4">
+        <h1 class="text-2xl font-bold mb-4 text-white"><i class="fa-solid fa-graduation-cap"></i> Quiz App</h1>
+        <div class="">
+
+            <div class="quiz-container  border border-b-0 ">
+                <!-- <div class="alert-times-up"></div>
+                <div class="bg"></div> -->
+                <div class="basta">
+                    <div class="quiz-header flex justify-between text-xl header py-3 px-4">
+                        <div class="quiz-header-left">
+                            <p class="p-2 font-bold">Awesome Quiz Application</p>
+                        </div>
+                        <div class="quiz-header-right">
+                            <p class="flex items-center gap-2 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 p-2"><span>Time left </span><span class="time ui label black">10</span></p>
+                        </div>
+                    </div>
+                    <div class="quiz-body px-6 py-7">
+                        <h3 class="quiz-question text-3xl"></h3>
+                        <div class="quiz-body-options flex flex-col gap-2">
+                            <button class="quiz-option ui  basic button" style="text-align: start;">asdsadsa</button>
+                            <button class="quiz-option ui  basic button" style="text-align: start;">dsdd</button>
+                            <button class="quiz-option ui  basic button" style="text-align: start;">hhhh</button>
+                            <button class="quiz-option ui  basic button" style="text-align: start;">aa</button>
+                        </div>
+                    </div>
+                    <div class="quiz-footer flex justify-between header  py-3 px-6 border border-l-0 border-r-0">
+                        <div class="quiz-footer-left">
+                            <p class="flex gap-2"><span class="quiz-current-index">1</span> of <span class="quiz-total">5</span> Questions</p>
+                        </div>
+                        <div class="quiz-footer-right">
+                            <button id="next" class="ui primary button" style="display: block;">Next Que</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="result"></div>
+            </div>
+   
+        </div>
+
+        
+    </div>
+    
+  
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="questions.js"></script>
+<script>
+
+
+
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+shuffle(Questions);
+
+let answer = '';
+let correctAnswer = '';
+let score = 0;
+let nextQuestion = 0;
+let nextQuestion2 = 1;
+let questionsTotal = Questions.length;
+let interval; 
+let countdown = 15; 
+
+let status = 'false';
+
+
+function displayQues(){
+try{
+    document.querySelector('.quiz-current-index').textContent = nextQuestion2;
+    document.querySelector('.quiz-total').textContent = questionsTotal;
+    let quizQuestion = Questions[nextQuestion];
+    let questionTitle = document.querySelector('.quiz-question');
+    questionTitle.textContent = quizQuestion.question;
+
+    document.querySelectorAll('.quiz-option').forEach((button, index) => {
+        let btn = button.textContent = quizQuestion.options[index];
+    })
+
+    console.log('working');
+    document.querySelectorAll('.quiz-option').forEach((btn) => {
+        
+        btn.addEventListener("click", function(){
+            correctAnswer = quizQuestion.correctAnswer;
+            answer = btn.textContent;
+            console.log("answer: " + answer + "\nCorrect Answer: " + correctAnswer);
+
+            document.querySelectorAll('.quiz-option').forEach((option) => {
+                option.classList.add("basic");
+            })
+            btn.classList.remove("basic");
+            
+        })
+    })
+}catch(err){
+    countdown = 9999991; 
+    if(score > Questions.length/2){
+        status = 'PASSED';
+    }else{
+        status = 'FAILED';
+    }
+    let colorStatus = (status === 'PASSED') ? 'text-green-600' : 'text-red-600';
+    document.querySelector('.basta').style.display = "none";
+    let quizJar = document.querySelector('.result');
+    quizJar.innerHTML = `
+    <h1>Quiz Completed</h1>
+    <p>Score: ${score}</p>
+    <p>Total Questions: ${Questions.length}</p>
+    <p class='${colorStatus}'>${status}</p>
+    <button id="restart" onclick="restartQuiz()" class="ui primary button">Restart Quiz</button>
+`;
+
+}
+}
+
+
+    document.querySelector('#next').addEventListener("click", function(){
+        document.querySelectorAll('.quiz-option').forEach((button) => {
+            if(button.textContent === correctAnswer){
+                button.classList.add("positive");
+                button.classList.remove("basic");
+            }else if(button.textContent === answer && button.textContent !== correctAnswer){
+                button.classList.add("negative");
+                button.classList.add("basic");
+
+            }
+        })
+        setTimeout(() => {
+            document.querySelectorAll('.quiz-option').forEach((button) => {
+                button.classList.remove("positive");
+                button.classList.remove("negative");
+            })
+
+            resetTimer();
+        if(answer === correctAnswer){
+            score += 1;
+        }
+
+        
+
+            if(!answer){
+            return;
+        }else{
+            nextQuestion += 1;
+            nextQuestion2 += 1;
+            document.querySelectorAll('.quiz-option').forEach((option) => {
+                option.classList.add("basic");
+            })
+            answer = '';
+        }
+
+        document.querySelector('.quiz-current-index').textContent = nextQuestion2;
+   
+        console.log("score            :           "+ score);        
+        console.log("quiznext         :           "+nextQuestion);
+        displayQues();
+
+        console.log("OK, QUESTION: " + nextQuestion);
+
+        console.log("asnwer: " + answer + "\n" + "correctAnswer: " + correctAnswer);
+
+        }, 1000);
+    })
+    
+
+function restartQuiz(){
+    countdown = 15; 
+    nextQuestion = 0;
+    nextQuestion2 = 1;
+    score = 0;
+    answer = '';
+    correctAnswer = '';
+    setTimeout(() => {
+        displayQues();
+        document.querySelector('.basta').style.display = "block";
+    document.querySelector('.result').innerHTML = '';
+    }, 400);
+
+}
+
+
+function startTimer() {
+    let countdownElement = document.querySelector('.time');
+    countdownElement.textContent = countdown; 
+
+    interval = setInterval(() => {
+        countdownElement.textContent = countdown;
+        countdown--;
+
+        if (countdown < 0) {
+            clearInterval(interval);
+            if(score > Questions.length/2){
+                status = 'PASSED';
+            }else{
+                status = 'FAILED';
+            }
+
+            let colorStatus = (status === 'PASSED') ? 'text-green-600' : 'text-red-600';
+            Swal.fire({
+                title: 'Time is up',
+                html: `
+                    <p>Your final score is <b>${score}</b></p>
+                    <p>Total Questions: <b>${Questions.length}</b></p>
+                    <p class='${colorStatus}'><b>${status}</b></p>
+                    <button id="restart" class="swal2-confirm swal2-styled" onclick="closeModal()">Restart Quiz</button>
+                `,
+                showConfirmButton: false
+            });
+            
+        }
+    }, 1000); 
+}
+
+function closeModal(){
+    Swal.close(); 
+    restartQuiz();
+    resetTimer();
+    document.querySelectorAll('.quiz-option').forEach((option) => {
+        option.classList.add("basic");
+    })
+    document.querySelector('.alert-times-up').style.display = 'none';
+    document.querySelector('.bg').style.display = 'none';
+}
+
+function resetTimer() {
+    clearInterval(interval); 
+    countdown = 15; 
+    startTimer(); 
+}
+
+
+displayQues();
+startTimer();
+</script>
