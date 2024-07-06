@@ -80,16 +80,19 @@
                 <!-- <div class="alert-times-up"></div>
                 <div class="bg"></div> -->
                 <div class="basta">
-                    <div class="quiz-header flex justify-between text-xl header py-3 px-4">
+                    <div class="quiz-header flex  justify-between text-xl header py-3 px-4">
                         <div class="quiz-header-left">
                             <p class="p-2 font-bold">Awesome Quiz Application</p>
                         </div>
-                        <div class="quiz-header-right">
+                        <div class="quiz-header-right hidden sm:flex">
                             <p class="flex items-center gap-2 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 p-2"><span>Time left </span><span class="time ui label black">10</span></p>
+                        </div>
+                        <div class="quiz-header-right flex justify-center  items-center sm:hidden">
+                            <span class="time ui label black ">10</span>
                         </div>
                     </div>
                     <div class="quiz-body px-6 py-7">
-                        <h3 class="quiz-question text-3xl"></h3>
+                        <h3 class="quiz-question lg:text-3xl"></h3>
                         <div class="quiz-body-options flex flex-col gap-2">
                             <button class="quiz-option ui  basic button" style="text-align: start;">asdsadsa</button>
                             <button class="quiz-option ui  basic button" style="text-align: start;">dsdd</button>
@@ -97,12 +100,12 @@
                             <button class="quiz-option ui  basic button" style="text-align: start;">aa</button>
                         </div>
                     </div>
-                    <div class="quiz-footer flex justify-between header  py-3 px-6 border border-l-0 border-r-0">
-                        <div class="quiz-footer-left">
+                    <div class="quiz-footer flex flex-col sm:flex-row items-center gap-2 justify-between header  py-3 px-6 border border-l-0 border-r-0">
+                        <div class="quiz-footer-left flex justify-center" >
                             <p class="flex gap-2"><span class="quiz-current-index">1</span> of <span class="quiz-total">5</span> Questions</p>
                         </div>
-                        <div class="quiz-footer-right">
-                            <button id="next" class="ui primary button" style="display: block;">Next Que</button>
+                        <div class="quiz-footer-right w-full sm:w-1/4">
+                            <button id="next" class="ui primary button w-full " style="display: block;">Next Que</button>
                         </div>
                     </div>
                 </div>
